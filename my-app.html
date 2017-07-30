@@ -4,16 +4,21 @@
 		:host {
 			display: block;
 		}
+    .container {
+      font-size: 15px;
+    }
 	</style>
 	<div> ABC </div>
 	<div> 123 </div>
 
 	<div class="file-container">
 	 	<template is="dom-repeat" items="{{files}}">
-    <div class="layout horizontal">
-     <iron-icon icon="icons:folder-open"></iron-icon>
-     <iron-icon icon="av:library-books"></iron-icon>
-	 		<div> {{item.name}}</div>
+      <div class=" container layout horizontal">
+        <div class="group" style="margin-left:{{marginComputer(item.level)}}">
+            <iron-icon icon="icons:folder-open"></iron-icon>
+            <iron-icon icon="av:library-books"></iron-icon>
+	 		      <div> {{item.name}}</div>
+        </div>
       </div>
 	 	</template>
 	</div>
@@ -30,6 +35,10 @@
  	
  	}
 
+  marginComputer(level) {
+
+    return level*30 + "px"
+  }
  	converter(data) {
 
    this.files = []

@@ -11,18 +11,31 @@
     .group {
       width: 200px;
     }
+
+    .input {
+      border: none;
+    }
+
+    [data-show="open"] {
+      display: block;
+    }
+    [data-show="closed"] {
+      display: none;
+    }
 	</style>
 	<div> ABC </div>
 	<div> 123 </div>
 
 	<div class="file-container">
 	 	<template is="dom-repeat" items="{{files}}">
-      <div class=" container layout horizontal">
+      <div on-click="toggle" style="display:{{item.open}}" class="container layout horizontal">
         <div class="group layout horizontal" style="margin-left:{{marginComputer(item.level)}}">
             <iron-icon class="fileicon" style="display:{{showFolder(item.children)}}" icon="icons:folder-open"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showFile(item.children)}}" icon="av:library-books"></iron-icon>
-	 		      <div> {{item.name}}</div>
-        </div>
+	 		      <div> <iron-input bind-value="{{item.name}}">
+                    <input class ="input" disabled> 
+                  </iron-input</div>
+            </div>
       </div>
 	 	</template>
 	</div>
@@ -39,7 +52,43 @@
  	
  	}
 
+  toggle(e) {
+
+    console.log('e', e)
+
+    let index = e.model.index + 1
+
+    let level = e.model.item.level
+
+    let bool = true
+
+    while (bool) {
+
+      if (this.files[index].level == level || this.files[index] == undefined) {
+        break;
+      }
+      this.files[index].open == "none" ? this.files[index].open = "block" : this.files[index].open = "none"
+
+      ++index
+    }
+
+    console.log('new files', this.files)
+
+    let files = this.files
+
+    this.set('files', [])
+
+    setTimeout(function(){
+    this.set('files', files)
+      
+      
+    }.bind(this), 500)
+
+  }
+
   showFolder(children) {
+
+
     if (children) {
       return "block"
     } else {

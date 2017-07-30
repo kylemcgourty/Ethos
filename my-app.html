@@ -1,6 +1,6 @@
 <dom-module id="my-app">
 	<template>
-	<style>
+	<style include="iron-flex iron-flex-alignment">
 		:host {
 			display: block;
 		}
@@ -10,7 +10,11 @@
 
 	<div class="file-container">
 	 	<template is="dom-repeat" items="{{files}}">
+    <div class="layout horizontal">
+     <iron-icon icon="icons:folder-open"></iron-icon>
+     <iron-icon icon="av:library-books"></iron-icon>
 	 		<div> {{item.name}}</div>
+      </div>
 	 	</template>
 	</div>
 </template>

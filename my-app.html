@@ -7,6 +7,10 @@
     .container {
       font-size: 15px;
     }
+
+    .group {
+      width: 200px;
+    }
 	</style>
 	<div> ABC </div>
 	<div> 123 </div>
@@ -14,9 +18,9 @@
 	<div class="file-container">
 	 	<template is="dom-repeat" items="{{files}}">
       <div class=" container layout horizontal">
-        <div class="group" style="margin-left:{{marginComputer(item.level)}}">
-            <iron-icon icon="icons:folder-open"></iron-icon>
-            <iron-icon icon="av:library-books"></iron-icon>
+        <div class="group layout horizontal" style="margin-left:{{marginComputer(item.level)}}">
+            <iron-icon class="fileicon" style="display:{{showFolder(item.children)}}" icon="icons:folder-open"></iron-icon>
+            <iron-icon class="fileicon" style="display:{{showFile(item.children)}}" icon="av:library-books"></iron-icon>
 	 		      <div> {{item.name}}</div>
         </div>
       </div>
@@ -34,6 +38,22 @@
 
  	
  	}
+
+  showFolder(children) {
+    if (children) {
+      return "block"
+    } else {
+      return "none"
+    }
+  }
+
+  showFile(children) {
+    if (children) {
+      return "none"
+    } else {
+      return "block"
+    }
+  }
 
   marginComputer(level) {
 

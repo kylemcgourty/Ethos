@@ -30,8 +30,8 @@
 	 	<template is="dom-repeat" items="{{files}}">
       <div on-click="toggle" style="display:{{item.open}}" class="container layout horizontal">
         <div class="group layout horizontal" style="margin-left:{{marginComputer(item.level)}}">
-            <iron-icon class="fileicon" style="display:{{showFolder(item.children)}}" icon="icons:folder-open"></iron-icon>
-            <iron-icon class="fileicon" style="display:{{showFile(item.children)}}" icon="av:library-books"></iron-icon>
+            <iron-icon class="fileicon" style="display:{{showFolder(item)}}" icon="icons:folder-open"></iron-icon>
+            <iron-icon class="fileicon" style="display:{{showFile(item)}}" icon="av:library-books"></iron-icon>
 	 		      <div> <iron-input bind-value="{{item.name}}">
                     <input class ="input" disabled> 
                   </iron-input</div>
@@ -64,40 +64,42 @@
 
     while (bool) {
 
-      if (this.files[index].level == level || this.files[index] == undefined) {
+      if (this.files[index].level == level || this.files[index].level < level || this.files[index] == undefined) {
         break;
       }
-      this.files[index].open == "none" ? this.files[index].open = "block" : this.files[index].open = "none"
+
+      this.files[index].open == "none" ? this.set('files.'+index+".open", "block"): this.set('files.'+index+".open", "none")
+
 
       ++index
     }
 
     console.log('new files', this.files)
 
-    let files = this.files
+    // let files = this.files
 
-    this.set('files', [])
+    // this.set('files', [])
 
-    setTimeout(function(){
-    this.set('files', files)
-      
-      
-    }.bind(this), 500)
+    // setTimeout(function(){
+    // this.set('files', files)
+
+
+    // }.bind(this), 500)
 
   }
 
-  showFolder(children) {
+  showFolder(item) {
 
 
-    if (children) {
+    if (item.children || item.name == "Empty Folder") {
       return "block"
     } else {
       return "none"
     }
   }
 
-  showFile(children) {
-    if (children) {
+  showFile(item) {
+    if (item.children || item.name == "Empty Folder") {
       return "none"
     } else {
       return "block"

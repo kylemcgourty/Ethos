@@ -1,53 +1,6 @@
-<dom-module id="my-app">
-	<template>
-	<style>
-		:host {
-			display: inline-block;
-		}
-	</style>
-	<div> ABC </div>
-</template>
-<script>
- class MyApp extends Polymer.Element {
- 	static get is () {
- 		return "my-app"
+(function () {
 
- 	}
- 	constructor() {
- 		super()
-
- 	
- 	}
-
- 	converter(data) {
-
-
-
- 		var leveler = function (collection, level) {
- 			collection.forEach(function(item, index) {
- 				item.level = level
-
- 				if (item.children) {
- 				leveler(item.children, level+1)
- 				}
-
- 			})
-
-
-
- 		}
-
-
- 		leveler(this.data.children, 1)
-
- 		console.log('data after conversion', this.data)
-
- 	}
-
- 	ready() {
-
-
- 		this.data = {
+this.data = {
   "children": [
     {
       "name": "Main Folder",
@@ -154,16 +107,4 @@
     }
   ]
 }
-
-	console.log("got the data", this.data)
-
-	this.converter(this.data)
-
- 	}
- }
-
- customElements.define(MyApp.is, MyApp);
- </script>
- </dom-module>
-
- 
+})()

@@ -6,6 +6,12 @@
 		}
 	</style>
 	<div> ABC </div>
+
+	<div class="file-container">
+	 	<template is="dom-repeat" items="{{files}}">
+	 		<div> item.name </div>
+	 	</template>
+	</div>
 </template>
 <script>
  class MyApp extends Polymer.Element {
@@ -21,26 +27,29 @@
 
  	converter(data) {
 
-
+ 		this.files = []
 
  		var leveler = function (collection, level) {
  			collection.forEach(function(item, index) {
  				item.level = level
 
+ 				this.push('files', item)
  				if (item.children) {
  				leveler(item.children, level+1)
  				}
 
- 			})
+ 			}.bind(this))
 
 
 
- 		}
+ 		}.bind(this)
 
 
  		leveler(this.data.children, 1)
 
  		console.log('data after conversion', this.data)
+
+ 		console.log('files after conversion', this.files)
 
  	}
 

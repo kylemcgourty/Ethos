@@ -42,6 +42,8 @@
 	 	<template is="dom-repeat" items="{{files}}">
       <div on-click="toggle" style="display:{{item.open}}; background-color:{{item.selected}}" class="container layout horizontal">
         <div class="group layout horizontal" style="margin-left:{{marginComputer(item.level)}}">
+            <iron-icon class="fileicon" style="display:{{showOpen(item.widgetstatus)}}" icon="icons:arrow-drop-down"></iron-icon>
+            <iron-icon class="fileicon" style="display:{{showClosed(item.widgetstatus)}}" icon="icons:arrow-drop-up"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showFolder(item)}}" icon="icons:folder-open"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showFile(item)}}" icon="av:library-books"></iron-icon>
 	 		      <div> <iron-input class="i-input" bind-value="{{item.name}}">
@@ -89,7 +91,21 @@
       this.set('files.'+ind+'.selected', "#7ca8ef")
       this.push('storage', e.model.index)
     }
-    console.log('e', e)
+
+    if (this.files[ind].type == "folder") {
+
+
+    if (this.files[ind].name != "Empty Folder"){
+
+      let widgetstatus = this.files[ind].widgetstatus
+
+      console.log('the widgetstatus', widgetstatus)
+
+      widgetstatus == true ? widgetstatus = false : widgetstatus = true
+
+      this.set('files.'+ind + '.widgetstatus', widgetstatus)
+    }
+
 
     let index = e.model.index + 1
 
@@ -99,7 +115,7 @@
 
     while (bool) {
 
-      if (this.files[index].level == level || this.files[index].level < level || this.files[index] == undefined) {
+      if (this.files[index] == undefined ||this.files[index].level == level || this.files[index].level < level ) {
         break;
       }
 
@@ -111,16 +127,26 @@
 
     console.log('new files', this.files)
 
-    // let files = this.files
+  }
 
-    // this.set('files', [])
+  }
 
-    // setTimeout(function(){
-    // this.set('files', files)
+  showOpen(widgetstatus) {
+    if (widgetstatus == true){
+      return "block"
+    } else {
+      return "none"
+    }
 
+  }
 
-    // }.bind(this), 500)
+  showClosed(widgetstatus) {
 
+    if (widgetstatus == false) {
+      return "block"
+    } else {
+      return "none"
+    }
   }
 
   showFolder(item) {
@@ -152,7 +178,9 @@
    var leveler = function (collection, level) {
      collection.forEach(function(item, index) {
        item.level = level
-
+       if (item.type == "folder" && item.name != "Empty Folder"){
+          item.widgetstatus=true
+       }
        this.push('files', item)
        if (item.children) {
        leveler(item.children, level+1)

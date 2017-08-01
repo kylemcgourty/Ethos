@@ -45,7 +45,7 @@
             <iron-icon class="fileicon" style="display:{{showFolder(item)}}" icon="icons:folder-open"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showFile(item)}}" icon="av:library-books"></iron-icon>
 	 		      <div> <iron-input class="i-input" bind-value="{{item.name}}">
-                    <input class ="input" disabled> 
+                    <input style="background-color:{{item.selected}}" class ="input" disabled> 
                   </iron-input</div>
             </div>
       </div>
@@ -77,14 +77,16 @@
 
   toggle(e) {
 
+    let ind = e.model.index
+
     if(this.storage.length == 1){
       let oldindex = this.storage.pop()
-      this.files[oldindex].selected = "white"
-      this.files[e.model.index].selected = "#7ca8ef"
+      this.set('files.'+oldindex+'.selected', "white")
+      this.set('files.'+ind+'.selected', "#7ca8ef")
       this.push('storage', e.model.index)
 
     } else {
-      this.files[e.model.index].selected = "#7ca8ef"
+      this.set('files.'+ind+'.selected', "#7ca8ef")
       this.push('storage', e.model.index)
     }
     console.log('e', e)

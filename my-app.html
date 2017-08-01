@@ -99,7 +99,6 @@
 
       let widgetstatus = this.files[ind].widgetstatus
 
-      console.log('the widgetstatus', widgetstatus)
 
       widgetstatus == true ? widgetstatus = false : widgetstatus = true
 
@@ -125,7 +124,6 @@
       ++index
     }
 
-    console.log('new files', this.files)
 
   }
 
@@ -195,11 +193,9 @@
 
    leveler(this.data.children, 1)
 
-   console.log('data after conversion', this.data)
 
-   console.log('files after conversion', this.files)
 
-  }// 
+  }
 
   	ready() {
 
@@ -314,7 +310,6 @@
   ]
 }
 
-	console.log("got the data", this.data)
 
 	this.converter(this.data)
 

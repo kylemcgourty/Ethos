@@ -8,6 +8,13 @@
       font-size: 15px;
     }
 
+    .container:hover .input{
+      background-color: #5c92e8;
+    }
+    .container:hover{
+      background-color: #5c92e8;
+    }
+  
     .group {
       width: 200px;
     }
@@ -22,17 +29,22 @@
     [data-show="closed"] {
       display: none;
     }
+    .title {
+      margin-bottom: 8px;
+      margin-left: 8px;
+      color: #5c92e8;
+    }
 	</style>
-	<div> ABC </div>
-	<div> 123 </div>
+	<div class="title"> Ethos Folders </div>
+	<div class="title"> Engineered by Kyle McGourty </div>
 
 	<div class="file-container">
 	 	<template is="dom-repeat" items="{{files}}">
-      <div on-click="toggle" style="display:{{item.open}}" class="container layout horizontal">
+      <div on-click="toggle" style="display:{{item.open}}; background-color:{{item.selected}}" class="container layout horizontal">
         <div class="group layout horizontal" style="margin-left:{{marginComputer(item.level)}}">
             <iron-icon class="fileicon" style="display:{{showFolder(item)}}" icon="icons:folder-open"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showFile(item)}}" icon="av:library-books"></iron-icon>
-	 		      <div> <iron-input bind-value="{{item.name}}">
+	 		      <div> <iron-input class="i-input" bind-value="{{item.name}}">
                     <input class ="input" disabled> 
                   </iron-input</div>
             </div>
@@ -46,6 +58,17 @@
  		return "my-app"
 
  	}
+  static get properties () {
+
+    return {
+      storage:{
+        type: Array,
+        value: function () {
+          return []
+        }
+      }
+    }
+  }
  	constructor() {
  		super()
 
@@ -54,6 +77,16 @@
 
   toggle(e) {
 
+    if(this.storage.length == 1){
+      let oldindex = this.storage.pop()
+      this.files[oldindex].selected = "white"
+      this.files[e.model.index].selected = "#7ca8ef"
+      this.push('storage', e.model.index)
+
+    } else {
+      this.files[e.model.index].selected = "#7ca8ef"
+      this.push('storage', e.model.index)
+    }
     console.log('e', e)
 
     let index = e.model.index + 1

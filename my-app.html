@@ -35,10 +35,10 @@
       color: #5c92e8;
     }
 	</style>
-	<div class="title"> Ethos Folders </div>
-	<div class="title"> Engineered by Kyle McGourty </div>
+<!-- 	<div class="title"> Ethos Folders </div>
+	<div class="title"> Engineered by Kyle McGourty </div> -->
 
-	<div class="file-container">
+	<!-- <div class="file-container">
 	 	<template is="dom-repeat" items="{{files}}">
       <div on-click="toggle" style="display:{{item.open}}; background-color:{{item.selected}}" class="container layout horizontal">
         <div class="group layout horizontal" style="margin-left:{{marginComputer(item.level)}}">
@@ -52,7 +52,7 @@
             </div>
       </div>
 	 	</template>
-	</div>
+	</div> -->
 </template>
 <script>
  class MyApp extends Polymer.Element {
@@ -68,7 +68,15 @@
         value: function () {
           return []
         }
-      }
+      },
+      // arithmetics: {
+      //   type: Object,
+      //   value: {
+      //     '*': *,
+      //     '+': +,
+
+      //   }
+      // }
     }
   }
  	constructor() {
@@ -76,6 +84,87 @@
 
  	
  	}
+
+
+  reversePolishCalc(PolishString) {
+
+    console.log('hit')
+
+    let components = PolishString.split(' ')
+
+    this.latest =[]
+
+    
+
+    for (var i=0; i< components.length; i++) {
+
+      if (components[i] == "+" || components[i] == "*") {
+
+        // console.log('in else')
+        this.calculator(components[i])
+      
+
+      } else {
+          this.latest.push(components[i])
+        
+      }
+    }
+
+
+
+  }
+
+  calculator(op) {
+
+  console.log('in calc', op, this.latest)
+      if( op == "*"){
+
+        var len = this.latest.length -1
+
+      console.log( this.latest[len] * this.latest[len-1] )
+
+      var mult = this.latest[len] * this.latest[len-1]
+
+      this.latest = this.latest.slice(-2)
+
+      console.log('latest before push', this.latest)
+
+      this.latest.push(mult)
+
+      }
+
+     else if( op == "+"){
+
+        var len = this.latest.length -1
+
+
+      console.log( Number(this.latest[len]) + Number(this.latest[len-1]) )
+
+      let sum = Number(this.latest[len]) + Number(this.latest[len-1])
+
+
+      this.latest = this.latest.slice(-2)
+     
+
+         console.log('latest before push', this.latest)
+
+      this.latest.push(sum) 
+
+      }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
   toggle(e) {
 
@@ -197,7 +286,77 @@
 
   }
 
+  Sort(bcs, start, end) {
+
+   
+
+    this.count++
+
+    console.log('the start and end', start, end)
+  if (start < end) {
+    let mid = this.Partition(this.ids, start, end)
+
+    console.log("the mid", mid)
+    this.Sort(this.ids, start, mid-1)
+    this.Sort(this.ids, mid+1, end)
+
+  }
+
+  console.log('final final ids', this.ids)
+
+  return
+
+}
+
+Partition(bcs, start, end) {
+
+  var final = this.ids[end]
+  // var finalId = this.ids[end].Id
+
+  console.log("start, end, finalid", start, end, final)
+
+ 
+
+  console.log("the ids before", JSON.parse(JSON.stringify(this.ids)))
+
+  var first = start
+
+  for (var i = start; i <= end; i++ ){
+
+    console.log("this.ids i id", this.ids[i])
+    if (this.ids[i] < final) {
+
+      let temp = this.ids[first]
+      this.ids[first] = this.ids[i]
+      this.ids[i] = temp
+      first = first + 1
+
+      console.log("the this.ids after", JSON.parse(JSON.stringify(this.ids)))
+    }
+  }
+
+  let temp = this.ids[first]
+  this.ids[first] = final
+  this.ids[end] = temp
+
+
+  console.log("the ids after total", JSON.parse(JSON.stringify(this.ids)))
+
+  return first 
+
+}
+
   	ready() {
+
+      this.ids = [3,2,7,4,9,1,6]
+
+      this.count = 0
+
+      this.Sort(this.ids, 0, this.ids.length-1)
+
+      // this.reversePolishCalc("3 4 3 * + 5 +")
+
+      // this.reversePolishCalc('11 5 +')
 
       super.ready()
 

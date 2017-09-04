@@ -1,163 +1,159 @@
 <dom-module id="my-app">
-	<template>
-	<style include="iron-flex iron-flex-alignment">
-		:host {
-			display: block;
-		}
-    .container {
-      font-size: 15px;
-    }
+    <template>
+        <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
 
-    .container:hover .input{
-      background-color: #5c92e8;
-    }
-    .container:hover{
-      background-color: #5c92e8;
-    }
-  
-    .group {
-      width: 200px;
-    }
+        .container {
+            font-size: 15px;
+        }
 
-    .input {
-      border: none;
-    }
+        .container:hover .input {
+            background-color: #5c92e8;
+        }
 
-    [data-show="open"] {
-      display: block;
-    }
-    [data-show="closed"] {
-      display: none;
-    }
-    .title {
-      margin-bottom: 8px;
-      margin-left: 8px;
-      color: #5c92e8;
-    }
-	</style>
-<!-- 	<div class="title"> Ethos Folders </div>
-	<div class="title"> Engineered by Kyle McGourty </div> -->
+        .container:hover {
+            background-color: #5c92e8;
+        }
 
-	<!-- <div class="file-container">
-	 	<template is="dom-repeat" items="{{files}}">
+        .group {
+            width: 200px;
+        }
+
+        .input {
+            border: none;
+        }
+
+        [data-show="open"] {
+            display: block;
+        }
+
+        [data-show="closed"] {
+            display: none;
+        }
+
+        .title {
+            margin-bottom: 8px;
+            margin-left: 8px;
+            color: #5c92e8;
+        }
+        </style>
+        <!--  <div class="title"> Ethos Folders </div>
+  <div class="title"> Engineered by Kyle McGourty </div> -->
+        <!-- <div class="file-container">
+    <template is="dom-repeat" items="{{files}}">
       <div on-click="toggle" style="display:{{item.open}}; background-color:{{item.selected}}" class="container layout horizontal">
         <div class="group layout horizontal" style="margin-left:{{marginComputer(item.level)}}">
             <iron-icon class="fileicon" style="display:{{showOpen(item.widgetstatus)}}" icon="icons:arrow-drop-down"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showClosed(item.widgetstatus)}}" icon="icons:arrow-drop-up"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showFolder(item)}}" icon="icons:folder-open"></iron-icon>
             <iron-icon class="fileicon" style="display:{{showFile(item)}}" icon="av:library-books"></iron-icon>
-	 		      <div> <iron-input class="i-input" bind-value="{{item.name}}">
+            <div> <iron-input class="i-input" bind-value="{{item.name}}">
                     <input style="background-color:{{item.selected}}" class ="input" disabled> 
                   </iron-input</div>
             </div>
       </div>
-	 	</template>
-	</div> -->
-</template>
-<script>
- class MyApp extends Polymer.Element {
- 	static get is () {
- 		return "my-app"
+    </template>
+  </div> -->
+    </template>
+    <script>
+    class MyApp extends Polymer.Element {
+        static get is() {
+            return "my-app"
 
- 	}
-  static get properties () {
-
-    return {
-      storage:{
-        type: Array,
-        value: function () {
-          return []
         }
-      },
-      // arithmetics: {
-      //   type: Object,
-      //   value: {
-      //     '*': *,
-      //     '+': +,
+        static get properties() {
 
-      //   }
-      // }
-    }
-  }
- 	constructor() {
- 		super()
+            return {
+                storage: {
+                    type: Array,
+                    value: function() {
+                        return []
+                    }
+                },
+                // arithmetics: {
+                //   type: Object,
+                //   value: {
+                //     '*': *,
+                //     '+': +,
 
- 	
- 	}
+                //   }
+                // }
+            }
+        }
+        constructor() {
+            super()
 
 
-  reversePolishCalc(PolishString) {
+        }
 
-    console.log('hit')
 
-    let components = PolishString.split(' ')
+        reversePolishCalc(PolishString) {
 
-    this.latest =[]
+            console.log('hit')
 
-    
+            let components = PolishString.split(' ')
 
-    for (var i=0; i< components.length; i++) {
+            this.latest = []
 
-      if (components[i] == "+" || components[i] == "*") {
 
-        // console.log('in else')
-        this.calculator(components[i])
-      
 
-      } else {
-          this.latest.push(components[i])
-        
-      }
-    }
+            for (var i = 0; i < components.length; i++) {
 
+                if (components[i] == "+" || components[i] == "*") {
 
+                    // console.log('in else')
+                    this.calculator(components[i])
 
-  }
 
-  calculator(op) {
+                } else {
+                    this.latest.push(components[i])
 
-  console.log('in calc', op, this.latest)
-      if( op == "*"){
+                }
+            }
 
-        var len = this.latest.length -1
 
-      console.log( this.latest[len] * this.latest[len-1] )
 
-      var mult = this.latest[len] * this.latest[len-1]
+        }
 
-      this.latest = this.latest.slice(-2)
+        calculator(op) {
 
-      console.log('latest before push', this.latest)
+            console.log('in calc', op, this.latest)
+            if (op == "*") {
 
-      this.latest.push(mult)
+                var len = this.latest.length - 1
 
-      }
+                console.log(this.latest[len] * this.latest[len - 1])
 
-     else if( op == "+"){
+                var mult = this.latest[len] * this.latest[len - 1]
 
-        var len = this.latest.length -1
+                this.latest = this.latest.slice(-2)
 
+                console.log('latest before push', this.latest)
 
-      console.log( Number(this.latest[len]) + Number(this.latest[len-1]) )
+                this.latest.push(mult)
 
-      let sum = Number(this.latest[len]) + Number(this.latest[len-1])
+            } else if (op == "+") {
 
+                var len = this.latest.length - 1
 
-      this.latest = this.latest.slice(-2)
-     
 
-         console.log('latest before push', this.latest)
+                console.log(Number(this.latest[len]) + Number(this.latest[len - 1]))
 
-      this.latest.push(sum) 
+                let sum = Number(this.latest[len]) + Number(this.latest[len - 1])
 
-      }
 
-  }
+                this.latest = this.latest.slice(-2)
 
 
+                console.log('latest before push', this.latest)
 
+                this.latest.push(sum)
 
+            }
 
+        }
 
 
 
@@ -166,379 +162,350 @@
 
 
 
-  toggle(e) {
 
-    let ind = e.model.index
 
-    if(this.storage.length == 1){
-      let oldindex = this.storage.pop()
-      this.set('files.'+oldindex+'.selected', "white")
-      this.set('files.'+ind+'.selected', "#7ca8ef")
-      this.push('storage', e.model.index)
 
-    } else {
-      this.set('files.'+ind+'.selected', "#7ca8ef")
-      this.push('storage', e.model.index)
-    }
 
-    if (this.files[ind].type == "folder") {
 
+        toggle(e) {
 
-    if (this.files[ind].name != "Empty Folder"){
+            let ind = e.model.index
 
-      let widgetstatus = this.files[ind].widgetstatus
+            if (this.storage.length == 1) {
+                let oldindex = this.storage.pop()
+                this.set('files.' + oldindex + '.selected', "white")
+                this.set('files.' + ind + '.selected', "#7ca8ef")
+                this.push('storage', e.model.index)
 
+            } else {
+                this.set('files.' + ind + '.selected', "#7ca8ef")
+                this.push('storage', e.model.index)
+            }
 
-      widgetstatus == true ? widgetstatus = false : widgetstatus = true
+            if (this.files[ind].type == "folder") {
 
-      this.set('files.'+ind + '.widgetstatus', widgetstatus)
-    }
 
+                if (this.files[ind].name != "Empty Folder") {
 
-    let index = e.model.index + 1
+                    let widgetstatus = this.files[ind].widgetstatus
 
-    let level = e.model.item.level
 
-    let bool = true
+                    widgetstatus == true ? widgetstatus = false : widgetstatus = true
 
-    while (bool) {
+                    this.set('files.' + ind + '.widgetstatus', widgetstatus)
+                }
 
-      if (this.files[index] == undefined ||this.files[index].level == level || this.files[index].level < level ) {
-        break;
-      }
 
-      this.files[index].open == "none" ? this.set('files.'+index+".open", "block"): this.set('files.'+index+".open", "none")
+                let index = e.model.index + 1
 
+                let level = e.model.item.level
 
-      ++index
-    }
+                let bool = true
 
+                while (bool) {
 
-  }
+                    if (this.files[index] == undefined || this.files[index].level == level || this.files[index].level < level) {
+                        break;
+                    }
 
-  }
+                    this.files[index].open == "none" ? this.set('files.' + index + ".open", "block") : this.set('files.' + index + ".open", "none")
 
-  showOpen(widgetstatus) {
-    if (widgetstatus == true){
-      return "block"
-    } else {
-      return "none"
-    }
 
-  }
+                        ++index
+                }
 
-  showClosed(widgetstatus) {
 
-    if (widgetstatus == false) {
-      return "block"
-    } else {
-      return "none"
-    }
-  }
+            }
 
-  showFolder(item) {
+        }
 
+        showOpen(widgetstatus) {
+            if (widgetstatus == true) {
+                return "block"
+            } else {
+                return "none"
+            }
 
-    if (item.children || item.name == "Empty Folder") {
-      return "block"
-    } else {
-      return "none"
-    }
-  }
+        }
 
-  showFile(item) {
-    if (item.children || item.name == "Empty Folder") {
-      return "none"
-    } else {
-      return "block"
-    }
-  }
+        showClosed(widgetstatus) {
 
-  marginComputer(level) {
+            if (widgetstatus == false) {
+                return "block"
+            } else {
+                return "none"
+            }
+        }
 
-    return level*30 + "px"
-  }
- 	converter(data) {
+        showFolder(item) {
 
-   this.files = []
 
-   var leveler = function (collection, level) {
-     collection.forEach(function(item, index) {
-       item.level = level
-       if (item.type == "folder" && item.name != "Empty Folder"){
-          item.widgetstatus=true
-       }
-       this.push('files', item)
-       if (item.children) {
-       leveler(item.children, level+1)
-       }
+            if (item.children || item.name == "Empty Folder") {
+                return "block"
+            } else {
+                return "none"
+            }
+        }
 
-     }.bind(this))
+        showFile(item) {
+            if (item.children || item.name == "Empty Folder") {
+                return "none"
+            } else {
+                return "block"
+            }
+        }
 
+        marginComputer(level) {
 
+            return level * 30 + "px"
+        }
+        converter(data) {
 
-   }.bind(this)
+            this.files = []
 
+            var leveler = function(collection, level) {
+                collection.forEach(function(item, index) {
+                    item.level = level
+                    if (item.type == "folder" && item.name != "Empty Folder") {
+                        item.widgetstatus = true
+                    }
+                    this.push('files', item)
+                    if (item.children) {
+                        leveler(item.children, level + 1)
+                    }
 
-   leveler(this.data.children, 1)
+                }.bind(this))
 
 
 
-  }
+            }.bind(this)
 
-   ReverseSort(bcs, start, end) {
 
-   
+            leveler(this.data.children, 1)
 
-    this.count++
 
-    console.log('the start and end', start, end)
-  if (start < end) {
-    let mid = this.ReversePartition(this.ids, start, end)
 
-    console.log("the mid", mid)
-    this.ReverseSort(this.ids, mid+1, end)
-    this.ReverseSort(this.ids, start, mid-1)
+        }
 
-  }
+        ReverseSort(bcs, start, end) {
 
-  console.log('reverse final final ids', this.ids)
 
-  return
 
-}
+            this.count++
 
-ReversePartition(bcs, start, end) {
+                if (start < end) {
+                    let mid = this.ReversePartition(this.ids, start, end)
 
-  var comparator = this.ids[start]
-  // var finalId = this.ids[end].Id
+                    this.ReverseSort(this.ids, mid + 1, end)
+                    this.ReverseSort(this.ids, start, mid - 1)
 
-  console.log("start, end, finalid", start, end, comparator)
+                }
 
- 
 
-  console.log("the ids before", JSON.parse(JSON.stringify(this.ids)))
+            return
 
-  var tracker = end
+        }
 
-  for (var i = end; i >= start; i-- ){
+        ReversePartition(bcs, start, end) {
 
-    console.log("this.ids i id", this.ids[i])
-    if (this.ids[i] < comparator) {
+            var comparator = this.ids[start]
+            // var finalId = this.ids[end].Id
 
-      let temp = this.ids[tracker]
-      this.ids[tracker] = this.ids[i]
-      this.ids[i] = temp
-      tracker = tracker - 1
 
-      console.log("the this.ids after", JSON.parse(JSON.stringify(this.ids)))
-    }
-  }
 
-  let temp = this.ids[tracker]
-  this.ids[tracker] = comparator
-  this.ids[start] = temp
 
 
-  console.log("the ids after total", JSON.parse(JSON.stringify(this.ids)))
+            var tracker = end
 
-  return tracker 
+            for (var i = end; i >= start; i--) {
 
-}
+                if (this.ids[i] < comparator) {
 
-  Sort(bcs, start, end) {
+                    let temp = this.ids[tracker]
+                    this.ids[tracker] = this.ids[i]
+                    this.ids[i] = temp
+                    tracker = tracker - 1
 
-   
+                }
+            }
 
-    this.count++
+            let temp = this.ids[tracker]
+            this.ids[tracker] = comparator
+            this.ids[start] = temp
 
-    console.log('the start and end', start, end)
-  if (start < end) {
-    let mid = this.Partition(this.ids, start, end)
 
-    console.log("the mid", mid)
-    this.Sort(this.ids, start, mid-1)
-    this.Sort(this.ids, mid+1, end)
 
-  }
+            return tracker
 
-  console.log('final final ids', this.ids)
+        }
 
-  return
+        Sort(bcs, start, end) {
 
-}
 
-Partition(bcs, start, end) {
 
-  var final = this.ids[end]
-  // var finalId = this.ids[end].Id
+            this.count++
 
-  console.log("start, end, finalid", start, end, final)
+            if (start < end) {
+                let mid = this.Partition(this.ids, start, end)
 
- 
+                this.Sort(this.ids, start, mid - 1)
+                this.Sort(this.ids, mid + 1, end)
 
-  console.log("the ids before", JSON.parse(JSON.stringify(this.ids)))
+            }
 
-  var first = start
 
-  for (var i = start; i <= end-1; i++ ){
+            return
 
-    console.log("this.ids i id", this.ids[i])
-    if (this.ids[i] < final) {
+        }
 
-      let temp = this.ids[first]
-      this.ids[first] = this.ids[i]
-      this.ids[i] = temp
-      first = first + 1
+        Partition(bcs, start, end) {
 
-      console.log("the this.ids after", JSON.parse(JSON.stringify(this.ids)))
-    }
-  }
+            var final = this.ids[end]
+            // var finalId = this.ids[end].Id
 
-  let temp = this.ids[first]
-  this.ids[first] = final
-  this.ids[end] = temp
 
 
-  console.log("the ids after total", JSON.parse(JSON.stringify(this.ids)))
 
-  return first 
 
-}
+            var first = start
 
-  	ready() {
+            for (var i = start; i <= end - 1; i++) {
 
-      this.ids = [3,2,7,4,9,1,6]
+                if (this.ids[i] < final) {
 
-      this.count = 0
+                    let temp = this.ids[first]
+                    this.ids[first] = this.ids[i]
+                    this.ids[i] = temp
+                    first = first + 1
 
-      // this.Sort(this.ids, 0, this.ids.length-1)
+                }
+            }
 
-      this.ReverseSort(this.ids, 0, this.ids.length-1)
+            let temp = this.ids[first]
+            this.ids[first] = final
+            this.ids[end] = temp
 
-      // this.reversePolishCalc("3 4 3 * + 5 +")
 
-      // this.reversePolishCalc('11 5 +')
 
-      super.ready()
+            return first
 
+        }
 
- 		this.data = {
-  "children": [
-    {
-      "name": "Main Folder",
-      "type": "folder",
-      "children": [
-        {
-          "name": "Sub Folder 1",
-          "type": "folder",
-          "children": [
-            {
-              "name": "Nested Folder",
-              "type": "folder",
-              "children": [
-                {
-                  "name": "Super Nested Folder",
-                  "type": "folder",
-                  "children": [
-                    {
-                      "name": "Deep File",
-                      "type": "file"
+        ready() {
+
+            this.ids = [3, 2, 7, 4, 9, 1, 6]
+
+            this.count = 0
+
+            // this.Sort(this.ids, 0, this.ids.length-1)
+
+            this.ReverseSort(this.ids, 0, this.ids.length - 1)
+
+            // this.reversePolishCalc("3 4 3 * + 5 +")
+
+            // this.reversePolishCalc('11 5 +')
+
+            super.ready()
+
+
+            this.data = {
+                "children": [{
+                        "name": "Main Folder",
+                        "type": "folder",
+                        "children": [{
+                            "name": "Sub Folder 1",
+                            "type": "folder",
+                            "children": [{
+                                    "name": "Nested Folder",
+                                    "type": "folder",
+                                    "children": [{
+                                        "name": "Super Nested Folder",
+                                        "type": "folder",
+                                        "children": [{
+                                                "name": "Deep File",
+                                                "type": "file"
+                                            },
+                                            {
+                                                "name": "Deep File 2",
+                                                "type": "file"
+                                            }
+                                        ]
+                                    }]
+                                },
+                                {
+                                    "name": "Empty Folder",
+                                    "type": "folder"
+                                },
+                                {
+                                    "name": "Simple Folder",
+                                    "type": "folder",
+                                    "children": [{
+                                        "name": "File",
+                                        "type": "file"
+                                    }]
+                                },
+                                {
+                                    "name": "Empty Folder",
+                                    "type": "folder"
+                                },
+                                {
+                                    "name": "Nested File",
+                                    "type": "file"
+                                }
+                            ]
+                        }]
                     },
                     {
-                      "name": "Deep File 2",
-                      "type": "file"
+                        "name": "Private folder",
+                        "type": "folder",
+                        "private": true,
+                        "children": [{
+                                "name": "Private document",
+                                "type": "file"
+                            },
+                            {
+                                "name": "Another folder",
+                                "type": "folder",
+                                "children": [{
+                                    "name": "Super secret document",
+                                    "type": "file"
+                                }]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Empty Folder",
+                        "type": "folder"
+                    },
+                    {
+                        "name": "Empty Folder",
+                        "type": "folder"
+                    },
+                    {
+                        "name": "Simple Folder",
+                        "type": "folder",
+                        "children": [{
+                            "name": "File",
+                            "type": "file"
+                        }]
+                    },
+                    {
+                        "name": "Poorly Named Folder",
+                        "type": "folder",
+                        "children": [{
+                            "name": "Extremely long file name 3847283948383837472738690283472394256982734982349871203984569872340981234",
+                            "type": "file"
+                        }]
                     }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Empty Folder",
-              "type": "folder"
-            },
-            {
-              "name": "Simple Folder",
-              "type": "folder",
-              "children": [
-                {
-                  "name": "File",
-                  "type": "file"
-                }
-              ]
-            },
-            {
-              "name": "Empty Folder",
-              "type": "folder"
-            },
-            {
-              "name": "Nested File",
-              "type": "file"
+                ]
             }
-          ]
+
+
+            this.converter(this.data)
+
         }
-      ]
-    },
-    {
-      "name": "Private folder",
-      "type": "folder",
-      "private": true,
-      "children": [
-        {
-          "name": "Private document",
-          "type": "file"
-        },
-        {
-          "name": "Another folder",
-          "type": "folder",
-          "children" : [
-            {
-              "name": "Super secret document",
-              "type": "file"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Empty Folder",
-      "type": "folder"
-    },
-    {
-      "name": "Empty Folder",
-      "type": "folder"
-    },
-    {
-      "name": "Simple Folder",
-      "type": "folder",
-      "children": [
-        {
-          "name": "File",
-          "type": "file"
-        }
-      ]
-    },
-    {
-      "name": "Poorly Named Folder",
-      "type": "folder",
-      "children": [
-        {
-          "name": "Extremely long file name 3847283948383837472738690283472394256982734982349871203984569872340981234",
-          "type": "file"
-        }
-      ]
     }
-  ]
-}
 
-
-	this.converter(this.data)
-
- 	}
- }
-
- customElements.define(MyApp.is, MyApp);
- </script>
- </dom-module>
-
- 
+    customElements.define(MyApp.is, MyApp);
+    </script>
+</dom-module>

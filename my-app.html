@@ -286,6 +286,66 @@
 
   }
 
+   ReverseSort(bcs, start, end) {
+
+   
+
+    this.count++
+
+    console.log('the start and end', start, end)
+  if (start < end) {
+    let mid = this.ReversePartition(this.ids, start, end)
+
+    console.log("the mid", mid)
+    this.ReverseSort(this.ids, mid+1, end)
+    this.ReverseSort(this.ids, start, mid-1)
+
+  }
+
+  console.log('reverse final final ids', this.ids)
+
+  return
+
+}
+
+ReversePartition(bcs, start, end) {
+
+  var comparator = this.ids[start]
+  // var finalId = this.ids[end].Id
+
+  console.log("start, end, finalid", start, end, comparator)
+
+ 
+
+  console.log("the ids before", JSON.parse(JSON.stringify(this.ids)))
+
+  var tracker = end
+
+  for (var i = end; i >= start; i-- ){
+
+    console.log("this.ids i id", this.ids[i])
+    if (this.ids[i] < comparator) {
+
+      let temp = this.ids[tracker]
+      this.ids[tracker] = this.ids[i]
+      this.ids[i] = temp
+      tracker = tracker - 1
+
+      console.log("the this.ids after", JSON.parse(JSON.stringify(this.ids)))
+    }
+  }
+
+  let temp = this.ids[tracker]
+  this.ids[tracker] = comparator
+  this.ids[start] = temp
+
+
+  console.log("the ids after total", JSON.parse(JSON.stringify(this.ids)))
+
+  return tracker 
+
+}
+
   Sort(bcs, start, end) {
 
    
@@ -321,7 +381,7 @@ Partition(bcs, start, end) {
 
   var first = start
 
-  for (var i = start; i <= end; i++ ){
+  for (var i = start; i <= end-1; i++ ){
 
     console.log("this.ids i id", this.ids[i])
     if (this.ids[i] < final) {
@@ -352,7 +412,9 @@ Partition(bcs, start, end) {
 
       this.count = 0
 
-      this.Sort(this.ids, 0, this.ids.length-1)
+      // this.Sort(this.ids, 0, this.ids.length-1)
+
+      this.ReverseSort(this.ids, 0, this.ids.length-1)
 
       // this.reversePolishCalc("3 4 3 * + 5 +")
 
